@@ -1,0 +1,400 @@
+@charset "UTF-8";
+
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+}
+
+html,
+body {
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 12px;
+    color: #333;
+    font-weight: 400;
+    letter-spacing: -0.02em;
+    height: 100%;
+}
+
+ul,
+ol,
+li {
+    list-style: none;
+}
+
+a {
+    text-decoration: none;
+    color: #000;
+}
+
+a:hover {
+    text-decoration: none;
+}
+
+a:visited {
+    text-decoration: none;
+}
+
+a:active {
+    text-decoration: none;
+}
+
+table {
+    border-collapse: collapse;
+}
+
+/* input box placeholder ���󺯰� */
+input:-ms-input-placeholder {
+    color: #f00;
+}
+
+/* Internet Explorer 10 �̻��� ���� */
+input::-webkit-input-placeholder {
+    color: #f00;
+}
+
+/* Webkit, Blink, Edge�� ���� */
+input::-moz-placeholder {
+    color: #f00;
+}
+
+/* Mozilla Firefox 4 ���� 18�� ���� */
+input::-moz-placeholder {
+    color: #f00;
+}
+
+/* Mozilla Firefox 19 �̻��� ���� */
+[tabindex='-1']:focus {
+    outline: 0 !important;
+}
+
+input[type='radio'],
+input[type='checkbox'] {
+    box-sizing: border-box;
+    padding: 0;
+}
+
+button,
+[type='button'],
+[type='reset'],
+[type='submit'] {
+    -webkit-appearance: button;
+    border: none;
+}
+
+img {
+    vertical-align: top;
+}
+
+.b1r {
+    border: 1px solid red !important;
+}
+
+.b1b {
+    border: 1px solid #000000 !important;
+}
+
+.b1d {
+    border: 1px solid #dddddd;
+}
+
+.br1d {
+    border-right: 1px solid #dddddd;
+}
+
+.bb1e {
+    border-bottom: 1px solid #eeeeee;
+}
+
+.fs13 {
+    font-size: 1.3rem !important;
+}
+
+.fs14 {
+    font-size: 1.4rem !important;
+}
+
+.fs15 {
+    font-size: 1.5rem !important;
+}
+
+.fs16 {
+    font-size: 1.6rem !important;
+}
+
+.fs17 {
+    font-size: 1.7rem !important;
+}
+
+.fs18 {
+    font-size: 1.8rem !important;
+}
+
+.fs20 {
+    font-size: 2rem !important;
+}
+
+.fs21 {
+    font-size: 2.1rem !important;
+}
+
+.fs22 {
+    font-size: 2.2rem !important;
+}
+
+.fs24 {
+    font-size: 2.4rem !important;
+}
+
+.fs27 {
+    font-size: 2.7rem !important;
+}
+
+.fs30 {
+    font-size: 3rem !important;
+}
+
+.fs32 {
+    font-size: 3.2rem !important;
+}
+
+.fs36 {
+    font-size: 3.6rem !important;
+}
+
+.fs42 {
+    font-size: 4.2rem !important;
+}
+
+.fs48 {
+    font-size: 4.8rem !important;
+}
+
+.fs54 {
+    font-size: 5.4rem !important;
+}
+
+.fs60 {
+    font-size: 6rem !important;
+}
+
+.fs72 {
+    font-size: 7.2rem !important;
+}
+
+.lh16 {
+    line-height: 6px;
+}
+
+.lh24 {
+    line-height: 24px;
+}
+
+.lh27 {
+    line-height: 27px;
+}
+
+.lh30 {
+    line-height: 30px;
+}
+
+.lh31 {
+    line-height: 31px;
+}
+
+.lh32 {
+    line-height: 32px;
+}
+
+.lh33 {
+    line-height: 33px;
+}
+
+.lh41 {
+    line-height: 41px;
+}
+
+.lh45 {
+    line-height: 45px;
+}
+
+.lh54 {
+    line-height: 54px;
+}
+
+.lh81 {
+    line-height: 81px;
+}
+
+.fw100 {
+    font-weight: 100;
+}
+
+.fw200 {
+    font-weight: 200;
+}
+
+.fw300 {
+    font-weight: 300;
+}
+
+.fw400 {
+    font-weight: 400;
+}
+
+.fw500 {
+    font-weight: 500;
+}
+
+.fw600 {
+    font-weight: 600;
+}
+
+.fw700 {
+    font-weight: 700;
+}
+
+.fw800 {
+    font-weight: 800;
+}
+
+.fw900 {
+    font-weight: 900;
+}
+
+.ls-20 {
+    letter-spacing: -0.02em;
+}
+
+.ls-25 {
+    letter-spacing: -0.025em;
+}
+
+.c-fff {
+    color: #ffffff;
+}
+
+.c-333 {
+    color: #333333;
+}
+
+.c-ad2a47 {
+    color: #ad2a47;
+}
+
+.c-000 {
+    color: #000;
+}
+
+.ff-ns {
+    font-family: 'NanumSquare', sans-serif;
+}
+
+.ff-noto {
+    font-family: 'Noto Sans KR', sans-serif;
+}
+
+.ff-nm {
+    font-family: 'Nanum Myeongjo', serif;
+}
+
+.py-6 {
+    padding-top: 5rem !important;
+    padding-bottom: 5rem !important;
+}
+
+.py-7 {
+    padding-top: 8rem !important;
+    padding-bottom: 8rem !important;
+}
+
+.pt-6 {
+    padding-top: 6rem !important;
+}
+
+.text-wine {
+    color: #ab3c85 !important;
+}
+
+a.text-wine:hover,
+a.text-wine:focus {
+    color: #19692c !important;
+}
+
+.border-wine {
+    border-color: #ab3c85 !important;
+}
+
+.bg-wine {
+    background-color: #ab3c85 !important;
+}
+
+.vertical-middle {
+    vertical-align: middle !important;
+}
+
+.w-10 {
+    width: 10% !important;
+}
+
+.w-15 {
+    width: 15% !important;
+}
+
+.w-20 {
+    width: 20% !important;
+}
+
+.w1300c {
+    max-width: 1330px;
+    padding-right: 15px;
+    padding-left: 15px;
+    margin-right: auto;
+    margin-left: auto;
+}
+.w1400c {
+    max-width: 1430px;
+    padding-right: 15px;
+    padding-left: 15px;
+    margin-right: auto;
+    margin-left: auto;
+}
+
+.pc_only {
+    display: block !important;
+}
+
+.tablet {
+    display: none !important;
+}
+
+.inner {
+    max-width: 1920px;
+}
+
+.break-text {
+    word-wrap: break-word;
+    word-break: break-word !important;
+    overflow-wrap: break-word !important;
+}
+
+.clearfix:after {
+    content: '';
+    display: block;
+    clear: both;
+}
+
+.hide {
+    position: absolute;
+    visibility: hidden;
+    width: 0;
+    height: 0;
+    top: 0;
+    left: 0;
+    overflow: hidden;
+    font-size: 0;
+    float: left;
+    clear: both;
+}
