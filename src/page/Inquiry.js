@@ -5,35 +5,52 @@ import { paging } from '../function/paging'
 import { DropDownList } from '@progress/kendo-react-dropdowns'
 import DateFilterData from '../component/DateFilterData'
 import '@progress/kendo-theme-default/dist/all.css'
+import _ from 'lodash'
+import Select from 'react-select'
 
 const Inquiry = () => {
     const [data, setData] = useState([])
+    const [haveDataPage, setHaveDataPage] = useState([])
     const [pageSize, setPageSize] = useState('3')
     const [currentPage, setCurrentPage] = useState('1')
     const [totalData, setTotalData] = useState()
     const handlePageChange = (page) => {
         setCurrentPage(page)
     }
+    const [fixUrl, setFixUrl] = useState('http://192.168.123.20:8080/M2550/search/?')
+    const [varUrl, setVarUrl] = useState('')
 
     useEffect(() => {
-        axios.get('http://192.168.123.20:8080/M2550?').then((response) => {
+        axios.get(varUrl).then((response) => {
             setData(response.data.content)
-            setTotalData(response.data.content.length)
+            if (varUrl !== '') {
+                setHaveDataPage(response.data.page)
+                setTotalData(response.data.content.length)
+            }
         })
-    }, [])
+        console.log('varUrl= ' + varUrl)
+    }, [varUrl])
 
     const pageData = paging(data, currentPage, pageSize) // 페이지 별로 아이템이 속한 배열을 얻어옴
 
-    const [rdoCode, setRdoCode] = useState()
-    const [rMonthSYear, setRMonthSYear] = useState(new Date().getFullYear())
-    const [rMonthSMonth, setRMonthSMonth] = useState(new Date().getMonth() + 1)
-    const [rMonthEYear, setRMonthEYear] = useState(new Date().getFullYear())
-    const [rMonthEMonth, setRMonthEMonth] = useState(new Date().getMonth() + 1)
-    const [tin, setTin] = useState()
-    const [rTName, setRTName] = useState()
+    const [rdoCode, setRdoCode] = useState('')
+    // const [rMonthSYear, setRMonthSYear] = useState(new Date().getFullYear())
+    // const [rMonthSMonth, setRMonthSMonth] = useState(new Date().getMonth() + 1)
+    // const [rMonthEYear, setRMonthEYear] = useState(new Date().getFullYear())
+    // const [rMonthEMonth, setRMonthEMonth] = useState(new Date().getMonth() + 1)
+    const [rMonthSYear, setRMonthSYear] = useState('')
+    const [rMonthSMonth, setRMonthSMonth] = useState('')
+    const [rMonthEYear, setRMonthEYear] = useState('')
+    const [rMonthEMonth, setRMonthEMonth] = useState('')
+    const [tin, setTin] = useState('')
+    const [rTName, setRTName] = useState('')
 
-    const amendedList = ['All', 'Yes', 'No']
-    const [amended, setAmended] = useState()
+    const amendedList = [
+        { value: '', label: 'All' },
+        { value: 'Y', label: 'Yes' },
+        { value: 'N', label: 'No' },
+    ]
+    const [amended, setAmended] = useState('')
     const nowY = new Date().getFullYear()
     const yearListArr = []
     const monthListArr = []
@@ -41,7 +58,11 @@ const Inquiry = () => {
         yearListArr.push(y)
     }
     for (let m = 1; m < 13; m++) {
-        monthListArr.push(m)
+        let _m = m.toString()
+        if (_m.length < 2) {
+            _m = '0' + _m
+        }
+        monthListArr.push(_m)
     }
 
     const rdoCodeCh = (e) => {
@@ -50,29 +71,65 @@ const Inquiry = () => {
     // 날짜 버튼 클릭, 기간 변경 기능
     const handleBtnClicked = (e) => {
         const { value } = e.target
+        const now = new Date()
+        let imsiDate = ''
         let varMonth = ''
+        let varYear = ''
+        const nowY = new Date().getFullYear()
+        let nowM = new Date().getMonth() + 1
+        nowM = ('0' + nowM).slice(-2)
         if (value === 'this month') {
-            varMonth = new Date().getMonth() + 1
+            varYear = now.getFullYear()
+            varMonth = now.getMonth() + 1
         }
         if (value === 'previous 2 months') {
-            varMonth = new Date().getMonth() - 1
+            imsiDate = new Date(now.setMonth(now.getMonth() - 1))
+            varYear = imsiDate.getFullYear()
+            varMonth = imsiDate.getMonth()
         }
         if (value === 'previous 3 months') {
-            varMonth = new Date().getMonth() - 2
+            imsiDate = new Date(now.setMonth(now.getMonth() - 2))
+            varYear = imsiDate.getFullYear()
+            varMonth = imsiDate.getMonth()
         }
+        varMonth = ('0' + varMonth).slice(-2)
+        setRMonthSYear(varYear)
         setRMonthSMonth(varMonth)
-        console.log(varMonth)
+        setRMonthEYear(nowY)
+        setRMonthEMonth(nowM)
     }
+
     const searchForm = (e) => {
         e.preventDefault()
-        console.log('rdoCode= ' + rdoCode)
-        console.log('amended= ' + amended)
-        console.log('rMonthSYear= ' + rMonthSYear)
-        console.log('rMonthSMonth= ' + rMonthSMonth)
-        console.log('rMonthEYear= ' + rMonthEYear)
-        console.log('rMonthEMonth= ' + rMonthEMonth)
-        console.log('tin= ' + tin)
-        console.log('rTName= ' + rTName)
+        let _url = ''
+        if (rdoCode !== '') {
+            _url += 'rdo=' + rdoCode + '&'
+        }
+        if (amended !== '') {
+            _url += 'amendedYn=' + amended + '&'
+        }
+        if (rMonthSYear !== '') {
+            _url += 'sy=' + rMonthSYear + '&'
+        }
+        if (rMonthSMonth !== '') {
+            _url += 'sm=' + rMonthSMonth + '&'
+        }
+        if (rMonthEYear !== '') {
+            _url += 'ey=' + rMonthEYear + '&'
+        }
+        if (rMonthEMonth !== '') {
+            _url += 'em=' + rMonthEMonth + '&'
+        }
+        if (tin !== '') {
+            _url += 'tin=' + tin + '&'
+        }
+        if (rTName !== '') {
+            _url += 'regName=' + rTName + '&'
+        }
+        //let _varUrl = fixUrl + _url + 'size=' + haveDataPage
+        let _varUrl = fixUrl + _url
+        setVarUrl(_varUrl)
+        console.log('_varUrl= ' + _varUrl)
     }
 
     if (totalData === 0) return <p>No Data...</p>
@@ -100,8 +157,9 @@ const Inquiry = () => {
                             <DropDownList
                                 data={amendedList}
                                 className="selectbox"
-                                defaultItem="All"
-                                onChange={(e) => setAmended(e.target.value)}
+                                textField="label"
+                                dataItemKey="value"
+                                onChange={(e) => setAmended(e.target.value.value)}
                             />
                         </div>
                     </div>
@@ -159,7 +217,7 @@ const Inquiry = () => {
                         <div className="ml-4">
                             <input
                                 type="text"
-                                value={rdoCode}
+                                value={tin}
                                 onChange={(e) => setTin(e.target.value)}
                             />
                         </div>
@@ -167,7 +225,7 @@ const Inquiry = () => {
                         <div className="ml-4">
                             <input
                                 type="text"
-                                value={rdoCode}
+                                value={rTName}
                                 onChange={(e) => setRTName(e.target.value)}
                             />
                         </div>
@@ -185,21 +243,95 @@ const Inquiry = () => {
                 <table className="table table-hover table-bordered">
                     <thead>
                         <tr>
-                            <th>ID</th>
-                            <th>Title</th>
-                            <th>Genre</th>
-                            <th>Release</th>
-                            <th>Release2</th>
+                            <th rowSpan="2">
+                                Return
+                                <br />
+                                Date
+                            </th>
+                            <th rowSpan="2">
+                                How to VAT
+                                <br />
+                                return
+                            </th>
+                            <th colSpan="2">RDO</th>
+                            <th rowSpan="2">Return Month</th>
+                            <th rowSpan="2">
+                                Amended
+                                <br />
+                                Return
+                            </th>
+                            <th rowSpan="2">TIN</th>
+                            <th rowSpan="2">Registered Name</th>
+                            <th rowSpan="2">
+                                Total
+                                <br />
+                                Output Tax Due
+                                <br />
+                                (1)D
+                            </th>
+                            <th rowSpan="2">
+                                Total Allowable
+                                <br />
+                                Input Tax
+                                <br />
+                                (2)
+                            </th>
+                            <th rowSpan="2">
+                                Net VAT Payable
+                                <br />
+                                <br />
+                                (3)=(1)-(2)
+                            </th>
+                            <th rowSpan="2">
+                                Total Tax Credit
+                                <br />
+                                /Payments
+                                <br />
+                                (4)
+                            </th>
+                            <th rowSpan="2">
+                                Penalties
+                                <br />
+                                <br />
+                                (5)
+                            </th>
+                            <th rowSpan="2">
+                                Total Amont Payable
+                                <br />
+                                (6)
+                                <br />
+                                =(3)-(4)+(5)
+                            </th>
+                        </tr>
+                        <tr>
+                            <th>Code</th>
+                            <th>Name</th>
                         </tr>
                     </thead>
                     <tbody>
                         {pageData.map((data) => (
                             <tr key={data.referenceNo}>
-                                <td>{data.referenceNo}</td>
-                                <td>{data.tin}</td>
-                                <td>{data.m2550HDto.substreet}</td>
-                                <td>{data.m2550HDto.street}</td>
-                                <td>{data.m2550HDto.barangay}</td>
+                                <td>{data.retrnPeriod}</td>
+                                <td>eFPS</td>
+                                <td>{data.m2550HDto.rodCode}</td>
+                                <td>North Quezon city</td>
+                                <td>07/2018</td>
+                                <td>{data.amendedYn}</td>
+                                <td>
+                                    {data.tin}-{data.branchCode}
+                                </td>
+                                <td>
+                                    {data.m2550HDto.registeredName}
+                                    {data.m2550HDto.lastName} {data.m2550HDto.firstName}
+                                    {data.m2550HDto.midName}
+                                </td>
+
+                                <td>{data.totalOutputTaxMo}</td>
+                                <td>{data.totalAllowInputTax}</td>
+                                <td>{data.netPayble}</td>
+                                <td>{data.totalCredAmt}</td>
+                                <td>{data.penalties}</td>
+                                <td>{data.totalAmtPaybl}</td>
                             </tr>
                         ))}
                     </tbody>
@@ -209,6 +341,7 @@ const Inquiry = () => {
                     itemsCount={totalData}
                     currentPage={currentPage}
                     onPageChange={handlePageChange}
+                    // setHaveDataPage={setHaveDataPage}
                 />
             </div>
         </>
